@@ -1,0 +1,7 @@
+inputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/"
+outputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/output/"
+tooldir: "/export/jippe/jsil/programs/"
+naming_convention: "KJOH_16S_515F_926R_Q16271_20230404"
+
+condaenvs: "/export/jippe/jsil/db/conda/yaml_files/bgeu/"
+qiime_v2: "qiime2-2022.11.its.yaml"
