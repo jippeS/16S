@@ -14,15 +14,7 @@ class PreDemux:
     def Formatting_contents(self):
         file_text = ""
         with open(f"{self.inputdir}reports/Pipeline_execution.txt", 'r') as pipeline_file:
-            report = pipeline_file.read().split("@#")
-            g = []
-            for r in report:
-                if r.strip().startswith("qiime"):
-                    g.append(r.split("   "))
-            print(g)
-            # report_list = [report.split("  ") for report in pipeline_file.read().split("@#") if report.strip().startswith("qiime")]
-        sys.exit()
-        print(report_list)
+            report_list = [report.split("  ") for report in pipeline_file.read().split("@#") if "qiime" in report.strip()]
         for command in report_list:
             command_text = ""
             for line in command:
@@ -32,11 +24,10 @@ class PreDemux:
                 else:
                     command_text += f"\t{line}\n"
             file_text += f"{command_text}\n"
-        print(file_text)
         # report_output_file(file_text, f"{self.inputdir}reports/Qiime_report.txt")
 
     def Formatting_timestamps(self):
-        folder_path = f"{self.inputdir}reports/"  # Replace with the actual folder path
+        folder_path = f"{self.inputdir}benchmarks/"  # Replace with the actual folder path
 
         file_names = []  # To store the file names
 
@@ -45,14 +36,27 @@ class PreDemux:
                 file_path = os.path.join(root, file)
                 file_names.append(file_path)
 
-        # Printing the complete file paths
-        for file_path in file_names:
-            print(file_path)
-
         # Printing only the file names
+        header = "s\th:m:s\tmax_rss\tmax_vms\tmax_uss\tmax_pss\tio_in\tio_out\tmean_load\tcpu_time"
+        time_dic = {}
         for file_path in file_names:
             file_name = os.path.basename(file_path)
+            print(file_path)
             print(file_name)
+            with open(file_path, "r") as bench_file:
+                time_dic[file_name[:-4]] = bench_file.read().split("\n")[1].split("\t")
+        print(len(time_dic["Classification"]))
+        print(time_dic)
+
+        total_time = 0
+        for item in time_dic.values():
+            total_time += float(item[0])
+        threshold = round(total_time*(1/len(time_dic.items())))
+        print(total_time)
+        print(threshold)
+        # # dictionary comprehension example
+        # square_dict = {num: num * num for num in range(1, 11)}
+        # print(square_dict)
 
 def report_output_file(report, output_file):
         """
@@ -86,8 +90,8 @@ def main():
     Execute the Class function in order.
     """
     pre_demux_calculation = PreDemux()
-    pre_demux_calculation.Formatting_contents()
-    #pre_demux_calculation.Formatting_timestamps()
+    # pre_demux_calculation.Formatting_contents()
+    pre_demux_calculation.Formatting_timestamps()
 
 if __name__ == '__main__':
     sys.exit(main())

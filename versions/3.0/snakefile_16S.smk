@@ -513,6 +513,36 @@ rule export_classified:
         "python3 {config[tooldir]}wetsus_packages/wait_file.py {params.first_output};"
         "mv {params.first_output} {output}"
 
+
+
+rule alpha_rarefaction:
+    input:
+        rooted_tree = rules.midpoint_root.output,
+        table_denoise = rules.denoising_paired.output.table
+    output:
+        outputdir + "Visualization_qzv/" + config["naming_convention"] + "_alpha-rarefaction.qzv"
+    params:
+        max_depth = 60088,
+        metadata = config["inputdir"] + "input/" + config["naming_convention"] + "@metadata.txt"
+    benchmark:
+        outputdir + "benchmarks/alpha_rarefaction.txt"
+    message:
+        "@#"
+        "Retrieving_alpha_rarefaction:"
+        "qiime diversity alpha-rarefaction  "
+        "   --i-table $1 "
+        "   --i-phylogeny $2 "
+        "   --p-max-depth $3 "
+        "   --m-metadata-file $4 "
+        "   --o-visualization $5"
+        "@#"
+    conda:
+        config["condaenvs"] + config["qiime_v2"]
+    shell:
+        "sbatch bash_scripts/vis/alpha_rarefaction.sh {input.table_denoise} {input.rooted_tree} {params.max_depth} {params.metadata} {output};"
+        "python3 {config[tooldir]}wetsus_packages/wait_file.py {output}"
+
+
 rule make_reports:
     input:
         export_rooted_tree = rules.export_rooted_tree.output,
@@ -523,7 +553,8 @@ rule make_reports:
         vis_repr = rules.visualize_representative_sequences.output,
         vis_table = rules.visualize_table.output,
         vis_denoise = rules.visualize_denoising_stats.output,
-        vis_classify = rules.visualize_classification.output
+        vis_classify = rules.visualize_classification.output,
+        vis_rarefaction = rules.alpha_rarefaction.output
     output:
         outputdir + "reports/Qiime_report.txt"
     shell:
