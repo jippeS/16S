@@ -1,7 +1,13 @@
-inputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/"
-outputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/output/"
-tooldir: "/export/jippe/jsil/programs/"
-naming_convention: "KJOH_16S_515F_926R_Q16271_20230404"
+#inputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/"
+#outputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/output/"
 
+inputdir: "/export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/"
+naming_convention: "KJOH_16S_515F_926R_Q16271_20230105"
+
+forward: "GTGYCAGCMGCCGCGGTAA"
+reverse: "CCGYCAATTYMTTTRAGTTT"
+
+tooldir: "/export/jippe/jsil/programs/"
 condaenvs: "/export/jippe/jsil/db/conda/yaml_files/bgeu/"
-qiime_v2: "qiime2-2022.11.its.yaml"
+qiime_v2: "qiime2-2022.11.16S.yaml"
+classifier: "/export/jippe/jsil/db/Qiime2/qiime2-2022.11/Silva/138/silva-138-99-nb-classifier.qza"
