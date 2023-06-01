@@ -1,0 +1,95 @@
+qiime tools import
+	--type 'SampleData[PairedEndSequencesWithQuality]'
+	--input-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/input/raw_data/
+	--output-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_PairEndSequences1.qza
+	--input-format PairedEndFastqManifestPhred33V2
+
+qiime cutadapt demux-paired
+	--m-forward-barcodes-column BarcodeSequence
+	--m-forward-barcodes-file /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/input/KJOH_16S_515F_926R_Q16271_20230105@metadata.txt
+	--i-seqs /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_PairEndSequences.qza
+	--p-error-rate 0
+	--o-per-sample-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_demux.qza
+	--o-untrimmed-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_untrimmed.qza
+	--verbose
+
+qiime cutadapt trim-paired
+	--i-demultiplexed-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_demux.qza
+	--p-front-f GTGYCAGCMGCCGCGGTAA
+	--p-front-r CCGYCAATTYMTTTRAGTTT
+	--p-discard-untrimmed
+	--o-trimmed-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qza
+
+qiime demux summarize
+	--i-data /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qza
+	--o-visualization /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qzv
+
+qiime dada2 denoise-paired
+	--i-demultiplexed-seqs /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qza
+	--p-trim-left-f 5
+	--p-trim-left-r 5
+	--p-trunc-len-f 200
+	--p-trunc-len-r 190
+	--o-table  /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_table.qza
+	--o-representative-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza
+	--o-denoising-stats /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_denoising_stats.qza
+	--p-n-threads 16
+
+qiime feature-table summarize
+	--i-table /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_table.qza
+	--m-sample-metadata-file /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/input/KJOH_16S_515F_926R_Q16271_20230105@metadata.txt
+	--o-visualization /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_table.qzv
+
+qiime tools export
+	--input-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_table.qza
+	--output-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/
+
+qiime tools export
+	--input-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza
+	--output-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/
+
+qiime alignment mafft
+	--i-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza
+	--o-alignment /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_aligned-rep-seqs.qza
+	--p-n-threads 16
+
+qiime feature-table tabulate-seqs
+	--i-data /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza
+	--o-visualization /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qzv
+
+qiime feature-classifier classify-sklearn
+	--i-classifier /export/jippe/jsil/db/Qiime2/qiime2-2022.11/Silva/138/silva-138-99-nb-classifier.qza
+	--i-reads /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza
+	--o-classification /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qza
+	--p-n-jobs 16
+	--p-reads-per-batch 200
+
+qiime metadata tabulate
+	--m-input-file /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_denoising_stats.qza
+	--o-visualization /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_denoising_stats.qzv
+
+qiime alignment mask
+	--i-alignment /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_aligned-rep-seqs.qza
+	--o-masked-alignment /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_masked_aligned-rep-seqs.qza
+
+qiime phylogeny fasttree
+	--i-alignment /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_masked_aligned-rep-seqs.qza
+	--o-tree /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_unrooted-tree.qza
+	--p-n-threads 16
+
+qiime phylogeny midpoint-root
+	--i-tree /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_unrooted-tree.qza
+	--o-rooted-tree /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_rooted-tree.qza
+
+qiime tools export
+	--input-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_rooted-tree.qza
+	--output-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/
+
+qiime metadata tabulate
+	--m-input-file /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qza
+	--o-visualization /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qzv
+
+qiime tools export
+	--input-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qza
+	--output-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/
+

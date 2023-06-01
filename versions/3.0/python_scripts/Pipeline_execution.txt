@@ -1,0 +1,292 @@
+Building DAG of jobs...
+Your conda installation is not configured to use strict channel priorities. This is however crucial for having robust and correct environments (for details, see https://conda-forge.org/docs/user/tipsandtricks.html). Please consider to configure strict priorities by executing 'conda config --set channel_priority strict'.
+Using shell: /usr/bin/bash
+Provided cores: 5
+Rules claiming more threads will be scaled down.
+Job stats:
+job                                   count    min threads    max threads
+----------------------------------  -------  -------------  -------------
+Demultiplex                               1              1              1
+Import_data                               1              1              1
+Phylogenetic_Fasttree                     1              1              1
+all                                       1              1              1
+classifying_reads                         1              1              1
+denoising_paired                          1              1              1
+export_classified                         1              1              1
+export_representative                     1              1              1
+export_rooted_tree                        1              1              1
+export_table                              1              1              1
+mafft_alignment                           1              1              1
+make_reports                              1              1              1
+masking_alignment                         1              1              1
+midpoint_root                             1              1              1
+trim_paired                               1              1              1
+trimmed_demux_summary                     1              1              1
+visualize_classification                  1              1              1
+visualize_denoising_stats                 1              1              1
+visualize_representative_sequences        1              1              1
+visualize_table                           1              1              1
+total                                    20              1              1
+
+Select jobs to execute...
+
+[Wed May 24 15:26:43 2023]
+Job 10: @#qiime tools import    --type 'SampleData[PairedEndSequencesWithQuality]'    --input-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/input/raw_data/    --output-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_PairEndSequences1.qza    --input-format PairedEndFastqManifestPhred33V2@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_PairEndSequences1.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+Archive:  /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/2023_05_15_040523PV1lee926R_Raw_Data.zip
+  inflating: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/tempdir/040523PV1lee926R-mapping.txt  
+   creating: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/tempdir/SAMa1-2/
+ extracting: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/tempdir/SAMa1-2/SAMa1-2_S2_L001_R1_001.fastq.gz  
+ extracting: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/tempdir/SAMa1-2/SAMa1-2_S2_L001_R2_001.fastq.gz  
+Submitted batch job 1096
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:28:32 2023]
+Finished job 10.
+1 of 20 steps (5%) done
+Select jobs to execute...
+
+[Wed May 24 15:28:32 2023]
+Job 9: @#qiime cutadapt demux-paired    --m-forward-barcodes-column BarcodeSequence    --m-forward-barcodes-file /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/input/KJOH_16S_515F_926R_Q16271_20230105@metadata.txt    --i-seqs /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_PairEndSequences.qza    --p-error-rate 0    --o-per-sample-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_demux.qza    --o-untrimmed-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_untrimmed.qza    --verbose@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_demux.qza; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_PairEndSequences1.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+Submitted batch job 1097
+1 out of 2 files done.
+2 out of 2 files done.
+Confirmation done!
+[Wed May 24 15:30:35 2023]
+Finished job 9.
+2 of 20 steps (10%) done
+Select jobs to execute...
+
+[Wed May 24 15:30:35 2023]
+Job 8: @#qiime cutadapt trim-paired    --i-demultiplexed-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_demux.qza    --p-front-f GTGYCAGCMGCCGCGGTAA    --p-front-r CCGYCAATTYMTTTRAGTTT    --p-discard-untrimmed    --o-trimmed-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qza@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qza; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_demux.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+Submitted batch job 1098
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:32:08 2023]
+Finished job 8.
+3 of 20 steps (15%) done
+Select jobs to execute...
+
+[Wed May 24 15:32:08 2023]
+Job 15: @#qiime demux summarize    --i-data /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qza    --o-visualization /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qzv@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qzv; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+
+[Wed May 24 15:32:09 2023]
+Job 7: @#qiime dada2 denoise-paired    --i-demultiplexed-seqs /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qza    --p-trim-left-f 5    --p-trim-left-r 5    --p-trunc-len-f 200    --p-trunc-len-r 190    --o-table  /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_table.qza    --o-representative-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza    --o-denoising-stats /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_denoising_stats.qza    --p-n-threads 16@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_denoising_stats.qza, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_table.qza, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+Submitted batch job 1099
+Submitted batch job 1100
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:34:12 2023]
+Finished job 15.
+4 of 20 steps (20%) done
+1 out of 3 files done.
+2 out of 3 files done.
+3 out of 3 files done.
+Confirmation done!
+[Wed May 24 15:36:43 2023]
+Finished job 7.
+5 of 20 steps (25%) done
+Select jobs to execute...
+
+[Wed May 24 15:36:44 2023]
+Job 17: @#qiime feature-table summarize    --i-table /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_table.qza    --m-sample-metadata-file /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/input/KJOH_16S_515F_926R_Q16271_20230105@metadata.txt    --o-visualization /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_table.qzv@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_table.qzv; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_table.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+
+[Wed May 24 15:36:44 2023]
+Job 12: @#qiime tools export    --input-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_table.qza    --output-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_feature-table.biom; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_table.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+
+[Wed May 24 15:36:45 2023]
+Job 11: @#qiime tools export    --input-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza    --output-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_dna-sequences.fasta; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+
+[Wed May 24 15:36:46 2023]
+Job 6: @#qiime alignment mafft    --i-sequences /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza    --o-alignment /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_aligned-rep-seqs.qza    --p-n-threads 16 @#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_aligned-rep-seqs.qza; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+
+[Wed May 24 15:36:46 2023]
+Job 16: @#qiime feature-table tabulate-seqs    --i-data /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza    --o-visualization /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qzv@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qzv; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+Submitted batch job 1101
+Submitted batch job 1102
+Submitted batch job 1103
+Submitted batch job 1104
+Submitted batch job 1105
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:38:07 2023]
+Finished job 12.
+6 of 20 steps (30%) done
+Select jobs to execute...
+
+[Wed May 24 15:38:07 2023]
+Job 14: @#qiime feature-classifier classify-sklearn    --i-classifier /export/jippe/jsil/db/Qiime2/qiime2-2022.11/Silva/138/silva-138-99-nb-classifier.qza    --i-reads /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza    --o-classification /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qza    --p-n-jobs 16    --p-reads-per-batch 200@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qza; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:38:09 2023]
+Finished job 11.
+7 of 20 steps (35%) done
+Select jobs to execute...
+
+[Wed May 24 15:38:09 2023]
+Job 18: @#qiime metadata tabulate    --m-input-file /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_denoising_stats.qza    --o-visualization /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_denoising_stats.qzv@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_denoising_stats.qzv; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_denoising_stats.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+Submitted batch job 1106
+Submitted batch job 1107
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:38:24 2023]
+Finished job 16.
+8 of 20 steps (40%) done
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:38:39 2023]
+Finished job 17.
+9 of 20 steps (45%) done
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:38:55 2023]
+Finished job 6.
+10 of 20 steps (50%) done
+Select jobs to execute...
+
+[Wed May 24 15:38:55 2023]
+Job 5: @#qiime alignment mask    --i-alignment /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_aligned-rep-seqs.qza    --o-masked-alignment /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_masked_aligned-rep-seqs.qza@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_masked_aligned-rep-seqs.qza; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_aligned-rep-seqs.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+Submitted batch job 1108
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:39:42 2023]
+Finished job 18.
+11 of 20 steps (55%) done
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:40:50 2023]
+Finished job 5.
+12 of 20 steps (60%) done
+Select jobs to execute...
+
+[Wed May 24 15:40:50 2023]
+Job 4: @#qiime phylogeny fasttree    --i-alignment /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_masked_aligned-rep-seqs.qza    --o-tree /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_unrooted-tree.qza    --p-n-threads 16@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_unrooted-tree.qza; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_masked_aligned-rep-seqs.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+Submitted batch job 1109
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:43:39 2023]
+Finished job 4.
+13 of 20 steps (65%) done
+Select jobs to execute...
+
+[Wed May 24 15:43:39 2023]
+Job 3: @#qiime phylogeny midpoint-root    --i-tree /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_unrooted-tree.qza    --o-rooted-tree /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_rooted-tree.qza@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_rooted-tree.qza; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_unrooted-tree.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+Submitted batch job 1110
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:45:12 2023]
+Finished job 3.
+14 of 20 steps (70%) done
+Select jobs to execute...
+
+[Wed May 24 15:45:12 2023]
+Job 2: @#qiime tools export    --input-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_rooted-tree.qza    --output-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_tree.nwk; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_rooted-tree.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+Submitted batch job 1111
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:46:31 2023]
+Finished job 2.
+15 of 20 steps (75%) done
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:51:11 2023]
+Finished job 14.
+16 of 20 steps (80%) done
+Select jobs to execute...
+
+[Wed May 24 15:51:11 2023]
+Job 19: @#qiime metadata tabulate    --m-input-file /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qza    --o-visualization /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qzv@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qzv; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+
+[Wed May 24 15:51:11 2023]
+Job 13: @#qiime tools export    --input-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qza    --output-path /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/@#
+Reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_taxonomy.tsv; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Artifacts_qza/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qza
+
+Activating conda environment: .snakemake/conda/119885c65d41be1772b54508067fb729_
+Submitted batch job 1112
+Submitted batch job 1113
+1 out of 1 files done.
+Confirmation done!
+1 out of 1 files done.
+Confirmation done!
+[Wed May 24 15:52:30 2023]
+Finished job 19.
+17 of 20 steps (85%) done
+[Wed May 24 15:52:30 2023]
+Finished job 13.
+18 of 20 steps (90%) done
+Select jobs to execute...
+
+[Wed May 24 15:52:30 2023]
+rule make_reports:
+    input: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_tree.nwk, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_dna-sequences.fasta, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_feature-table.biom, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_taxonomy.tsv, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qzv, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qzv, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_table.qzv, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_denoising_stats.qzv, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qzv
+    output: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/slurm_output/Pipeline_execution.out
+    jobid: 1
+    reason: Missing output files: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/slurm_output/Pipeline_execution.out; Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_silva-138-99-nb-classifier.qzv, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_representative_sequences.qzv, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_tree.nwk, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_dna-sequences.fasta, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_trimmed_demux_seqs.qzv, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_table.qzv, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/Visualization_qzv/KJOH_16S_515F_926R_Q16271_20230105_denoising_stats.qzv, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_feature-table.biom, /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/export/KJOH_16S_515F_926R_Q16271_20230105_taxonomy.tsv
+    resources: tmpdir=/export/jippe/temp
+
+[Wed May 24 15:52:31 2023]
+Finished job 1.
+19 of 20 steps (95%) done
+Select jobs to execute...
+
+[Wed May 24 15:52:31 2023]
+localrule all:
+    input: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/slurm_output/Pipeline_execution.out
+    jobid: 0
+    reason: Input files updated by another job: /export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/output/slurm_output/Pipeline_execution.out
+    resources: tmpdir=/export/jippe/temp
+
+[Wed May 24 15:52:31 2023]
+Finished job 0.
+20 of 20 steps (100%) done
+Complete log: .snakemake/log/2023-05-24T152639.861398.snakemake.log
