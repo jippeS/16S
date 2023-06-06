@@ -1,5 +1,6 @@
 #!/bin/bash
 #SBATCH --output=denoise_paired_%j.out
+#SBATCH --partition=Bytesflex
 #SBATCH --job-name=Denois_pairing
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
