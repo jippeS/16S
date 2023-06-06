@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=Alpha_rarefaction
-#SBATCH --output=Alpha_rarefaction%j.out
+#SBATCH --output=Alpha_rarefaction_%j.out
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
