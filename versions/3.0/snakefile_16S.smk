@@ -26,7 +26,9 @@ outputdir = config["inputdir"] + "output/"
 
 rule all:
     input:
-        outputdir + "reports/Qiime_report.txt"
+        outputdir + "reports/" + config["naming_convention"] + ".zip"
+        # outputdir + "reports/Qiime_report.txt"#,
+        # outputdir+ "reports/time.png"
         # outputdir + "Visualization_qzv/" + config["naming_convention"] + "_trimmed_demux_seqs.qzv",
         # outputdir + "Visualization_qzv/" + config["naming_convention"] + "_representative_sequences.qzv",
         # outputdir + "Visualization_qzv/" + config["naming_convention"] + "_table.qzv",
@@ -88,21 +90,15 @@ rule Import_data:
     shell:
         "if [ ! -f {output} ];"
         "then "
-        "   mkdir {config[inputdir]}input/;"
+        "   python3 python_scripts/pre_data.py {config[inputdir]};"
         "   mkdir {config[inputdir]}input/raw_data;"
-        "   mkdir {config[inputdir]}tempdir;"
-        "   unzip {config[inputdir]}*.zip -d {config[inputdir]}tempdir;"
-        "   mv {config[inputdir]}tempdir/*.txt {config[inputdir]}input/{config[naming_convention]}@metadata.txt;"
-        "   mv {config[inputdir]}tempdir/*/*_R1_*.fastq.gz {config[inputdir]}input/raw_data/forward1.fastq.gz;"
-        "   mv {config[inputdir]}tempdir/*/*_R2_*.fastq.gz {config[inputdir]}input/raw_data/reverse1.fastq.gz;"
-        "   gunzip -d {config[inputdir]}input/raw_data/forward1.fastq.gz;"
-        "   gunzip -d {config[inputdir]}input/raw_data/reverse1.fastq.gz;"
+        "   mv {config[inputdir]}input/*.fastq {config[inputdir]}input/raw_data/;"
+        "   mv {config[inputdir]}input/*.txt {config[inputdir]}input/{config[naming_convention]}@metadata.txt;"
         "   cp config.yaml {config[inputdir]}output/;"
         "   python3 python_scripts/pre_demux.py --inputdir={config[inputdir]};"
         "   gzip -c {config[inputdir]}input/raw_data/forward.fastq > {config[inputdir]}input/raw_data/forward.fastq.gz;"
         "   gzip -c {config[inputdir]}input/raw_data/reverse.fastq > {config[inputdir]}input/raw_data/reverse.fastq.gz;"
         "   rm {config[inputdir]}input/raw_data/*.fastq;"
-        "   rm -rf {config[inputdir]}tempdir;"
         "   sbatch bash_scripts/calc/import_data.sh {params.inputpath}input/raw_data/ {output};"
         "   python3 {config[tooldir]}wetsus_packages/wait_file.py {output};"
         "fi"
@@ -119,7 +115,8 @@ rule Demultiplex:
     params:
         # inputfile = outputdir + "Artifacts_qza/" + config["naming_convention"] + "_PairEndSequences.qza",
         p_error_rate = 0,
-        metadata =  config["inputdir"] + "input/" + config["naming_convention"] + "@metadata.txt"
+        metadata =  config["inputdir"] + "input/" + config["naming_convention"] + "@metadata.txt",
+        cores = 16
     benchmark:
         outputdir + "benchmarks/Demultiplexing.txt"
     message:
@@ -132,10 +129,11 @@ rule Demultiplex:
         "   --p-error-rate {params.p_error_rate} "
         "   --o-per-sample-sequences {output.demux} "
         "   --o-untrimmed-sequences {output.untrimmed} "
+        "   --p-cores {params.cores}    "
         "   --verbose"
         "@#"
     shell:
-        "sbatch bash_scripts/calc/demultiplex.sh {params.metadata} {input} {params.p_error_rate} {output.demux} {output.untrimmed};"
+        "sbatch bash_scripts/calc/demultiplex.sh {params.metadata} {input} {params.p_error_rate} {output.demux} {output.untrimmed} {params.cores};"
         "python3 {config[tooldir]}wetsus_packages/wait_file.py {output.demux} {output.untrimmed}"
 
 
@@ -150,7 +148,8 @@ rule trim_paired:
         config["condaenvs"] + config["qiime_v2"]
     params:
         p_front_f = "GTGYCAGCMGCCGCGGTAA",
-        p_front_r = "CCGYCAATTYMTTTRAGTTT"
+        p_front_r = "CCGYCAATTYMTTTRAGTTT",
+        cores = 16
     benchmark:
         outputdir + "benchmarks/Trim_paired.txt"
     message:
@@ -161,11 +160,12 @@ rule trim_paired:
         "   --p-front-f {params.p_front_f} "
         "   --p-front-r {params.p_front_r} "
         "   --p-discard-untrimmed "
-        "   --o-trimmed-sequences {output}"
+        "   --o-trimmed-sequences {output}  "
+        "   --p-cores {params.cores}"
         "@#"
     shell:
         "mkdir {outputdir}export/;"
-        "sbatch bash_scripts/calc/trim_paired.sh {input} {params.p_front_f} {params.p_front_r} {output};"
+        "sbatch bash_scripts/calc/trim_paired.sh {input} {params.p_front_f} {params.p_front_r} {output} {params.cores};"
         "python3 {config[tooldir]}wetsus_packages/wait_file.py {output}"
 
 
@@ -503,7 +503,7 @@ rule export_classified:
         outputdir + "benchmarks/export_classified.txt"
     message:
         "@#"
-        "Exporting classifications:   "
+        "Exporting classifications: "
         "qiime tools export "
         "   --input-path {input} "
         "   --output-path {outputdir}export/"
@@ -528,13 +528,13 @@ rule alpha_rarefaction:
         outputdir + "benchmarks/alpha_rarefaction.txt"
     message:
         "@#"
-        "Retrieving_alpha_rarefaction:"
+        "Retrieving_alpha_rarefaction:  "
         "qiime diversity alpha-rarefaction  "
-        "   --i-table $1 "
-        "   --i-phylogeny $2 "
-        "   --p-max-depth $3 "
-        "   --m-metadata-file $4 "
-        "   --o-visualization $5"
+        "   --i-table {input.table_denoise} "
+        "   --i-phylogeny {input.rooted_tree} "
+        "   --p-max-depth {params.max_depth} "
+        "   --m-metadata-file {params.metadata} "
+        "   --o-visualization {output}"
         "@#"
     conda:
         config["condaenvs"] + config["qiime_v2"]
@@ -542,23 +542,80 @@ rule alpha_rarefaction:
         "sbatch bash_scripts/vis/alpha_rarefaction.sh {input.table_denoise} {input.rooted_tree} {params.max_depth} {params.metadata} {output};"
         "python3 {config[tooldir]}wetsus_packages/wait_file.py {output}"
 
-
-rule make_reports:
+rule Taxonomy_analysis:
     input:
-        export_rooted_tree = rules.export_rooted_tree.output,
-        export_representative = rules.export_representative.output,
-        export_table = rules.export_table.output,
-        export_classify = rules.export_classified.output,
-        vis_trimmed = rules.trimmed_demux_summary.output,
-        vis_repr = rules.visualize_representative_sequences.output,
-        vis_table = rules.visualize_table.output,
-        vis_denoise = rules.visualize_denoising_stats.output,
-        vis_classify = rules.visualize_classification.output,
-        vis_rarefaction = rules.alpha_rarefaction.output
+        taxa = rules.classifying_reads.output,
+        table = rules.denoising_paired.output.table
     output:
-        outputdir + "reports/Qiime_report.txt"
+        outputdir + "Visualization_qzv/" + config["naming_convention"] + "_taxonomy_barplot.qzv"
+    conda:
+        config["condaenvs"] + config["qiime_v2"]
+    message:
+        "@#"
+        "qiime taxa barplot "
+        "   --i-table {input.table} "
+        "   --i-taxonomy {input.taxa}   "
+        "   --m-metadata-file {params.metadata} "
+        "   --o-visualization {output}"
+        "@#"
+    params:
+        metadata=config["inputdir"] + "input/" + config["naming_convention"] + "@metadata.txt"
     shell:
+        "sbatch bash_scripts/vis/taxonomy_barplot.sh {input.table} {input.taxa} {params.metadata} {output};"
+        "python3 {config[tooldir]}wetsus_packages/wait_file.py {output}"
+
+rule return_zipped_results:
+    input:
+        table = rules.denoising_paired.output.table,
+        representative = rules.denoising_paired.output.representative,
+        rooted = rules.midpoint_root.output,
+        taxonomy = rules.classifying_reads.output,
+        alpha = rules.alpha_rarefaction.output,
+        vis_denoise = rules.visualize_denoising_stats.output,
+        trim_demux = rules.trim_paired.output,
+
+        export_rooted_tree= rules.export_rooted_tree.output,
+        export_representative= rules.export_representative.output,
+        export_table= rules.export_table.output,
+        export_classify= rules.export_classified.output,
+        vis_trimmed= rules.trimmed_demux_summary.output,
+        vis_repr= rules.visualize_representative_sequences.output,
+        vis_table= rules.visualize_table.output,
+        vis_classify= rules.visualize_classification.output,
+        taxonomy_analysis= rules.Taxonomy_analysis.output
+
+    output:
+        outputdir + "reports/"+ config["naming_convention"] + ".zip"
+    params:
+        metadata = config["inputdir"] + "input/" + config["naming_convention"] + "@metadata.txt",
+        zip_folder = outputdir + "reports/"+ config["naming_convention"]
+    shell:
+        "mkdir {params.zip_folder};"
+        "cp {input.table} {params.zip_folder};"
+        "cp {input.representative} {params.zip_folder};"
+        "cp {input.rooted} {params.zip_folder};"
+        "cp {input.taxonomy} {params.zip_folder};"
+        "cp {input.alpha} {params.zip_folder};"
+        "cp {params.metadata} {params.zip_folder};"
+        "cp {input.vis_denoise} {params.zip_folder};"
+        "cp {input.trim_demux} {params.zip_folder};"
         "mkdir {outputdir}slurm_output/;"
         "mv *.out {outputdir}slurm_output/;"
         "mv Pipeline_execution.txt {outputdir}reports/;"
-        "python3 python_scripts/snakemake_report.py --inputdir={outputdir}"
+        "python3 python_scripts/snakemake_report.py --inputdir={outputdir};"
+        "cp {config[inputdir]}reports/Qiime_report.txt {params.zip_folder}"
+        "zip -r {output} {params.zip_folder}"
+
+rule make_reports:
+    input:
+        zipped = rules.return_zipped_results.output
+    output:
+        report = outputdir + "reports/Qiime_report.txt",
+        # time = outputdir + "reports/time.png"
+    params:
+        input_file = outputdir + "reports/time.csv"
+    conda:
+        config["condaenvs"] + "R.yaml"
+    shell:
+        "Rscript r_scripts/Visualize_time.R {params.input_file} {output.time}"
+

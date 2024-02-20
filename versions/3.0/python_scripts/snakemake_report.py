@@ -24,7 +24,7 @@ class PreDemux:
                 else:
                     command_text += f"\t{line}\n"
             file_text += f"{command_text}\n"
-        # report_output_file(file_text, f"{self.inputdir}reports/Qiime_report.txt")
+        report_output_file(file_text, f"{self.inputdir}reports/Qiime_report.txt")
 
     def Formatting_timestamps(self):
         folder_path = f"{self.inputdir}benchmarks/"  # Replace with the actual folder path
@@ -37,26 +37,27 @@ class PreDemux:
                 file_names.append(file_path)
 
         # Printing only the file names
-        header = "s\th:m:s\tmax_rss\tmax_vms\tmax_uss\tmax_pss\tio_in\tio_out\tmean_load\tcpu_time"
+        header = "name\ts\th:m:s\tmax_rss\tmax_vms\tmax_uss\tmax_pss\tio_in\tio_out\tmean_load\tcpu_time\n"
         time_dic = {}
         for file_path in file_names:
             file_name = os.path.basename(file_path)
-            print(file_path)
-            print(file_name)
+            # print(file_path)
+            # print(file_name)
             with open(file_path, "r") as bench_file:
                 time_dic[file_name[:-4]] = bench_file.read().split("\n")[1].split("\t")
-        print(len(time_dic["Classification"]))
-        print(time_dic)
+                values = time_dic[file_name[:-4]]
+                header += f"{file_name[:-4]}\t{values[0]}\t{values[1]}\t{values[2]}\t{values[3]}\t{values[4]}\t{values[5]}\t{values[6]}\t{values[7]}\t{values[8]}\t{values[9]}\n"
 
-        total_time = 0
-        for item in time_dic.values():
-            total_time += float(item[0])
-        threshold = round(total_time*(1/len(time_dic.items())))
-        print(total_time)
-        print(threshold)
-        # # dictionary comprehension example
-        # square_dict = {num: num * num for num in range(1, 11)}
-        # print(square_dict)
+        # print(len(time_dic["Classification"]))
+        # print(time_dic)
+        report_output_file(header, f"{self.inputdir}reports/time.csv")
+
+        # total_time = 0
+        # for item in time_dic.values():
+        #     total_time += float(item[0])
+        # threshold = round(total_time*(1/len(time_dic.items())))
+        # print(total_time)
+        # print(threshold)
 
 def report_output_file(report, output_file):
         """
@@ -90,7 +91,7 @@ def main():
     Execute the Class function in order.
     """
     pre_demux_calculation = PreDemux()
-    # pre_demux_calculation.Formatting_contents()
+    pre_demux_calculation.Formatting_contents()
     pre_demux_calculation.Formatting_timestamps()
 
 if __name__ == '__main__':
