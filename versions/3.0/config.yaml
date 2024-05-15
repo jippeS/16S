@@ -1,8 +1,8 @@
 #inputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/"
 #outputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/output/"
 
-inputdir: "/export/jippe/jsil/projects/16S/KJOH/01_05_2023_oldschool_met_pre_demux/"
-naming_convention: "KJOH_16S_515F_926R_Q16271_20230105"
+inputdir: "/export/projects/16S/KJOH/08_05_2024_Q17537_full/"
+naming_convention: "KJOH_16S_515F_926R_08052024_Q17537_full_KJOH"
 
 forward: "GTGYCAGCMGCCGCGGTAA"
 reverse: "CCGYCAATTYMTTTRAGTTT"
