@@ -382,7 +382,7 @@ rule classifying_reads:
     conda:
         config["condaenvs"] + config["qiime_v2"]
     params:
-        threads = 16,
+        threads = 8,
         batch_size = 200
     benchmark:
         outputdir + "benchmarks/Classification.txt"
@@ -522,7 +522,7 @@ rule alpha_rarefaction:
     output:
         outputdir + "Visualization_qzv/" + config["naming_convention"] + "_alpha-rarefaction.qzv"
     params:
-        max_depth = 60088,
+        max_depth = 200,
         metadata = config["inputdir"] + "input/" + config["naming_convention"] + "@metadata.txt"
     benchmark:
         outputdir + "benchmarks/alpha_rarefaction.txt"
