@@ -1,0 +1,13 @@
+#inputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/"
+#outputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/output/"
+
+inputdir: "/export/projects/16S/SYAN/proj1_09_01_2025_Q12879/"
+naming_convention: "SYAN_16S_515F_926R_09012025_Q12879_proj1_SYAN"
+
+forward: "GTGYCAGCMGCCGCGGTAA"
+reverse: "CCGYCAATTYMTTTRAGTTT"
+
+tooldir: "/export/jippe/jsil/programs/"
+condaenvs: "/export/databases/Conda/22.11.1/yaml_files/jsil/"
+qiime_v2: "qiime2-2022.11.16S.01.yaml"
+classifier: "/export/databases/Silva/138.1/Qiime/2022.11/silva-138-99-nb-classifier_515f_926R.qza"
