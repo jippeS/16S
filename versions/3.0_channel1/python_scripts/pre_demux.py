@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+
+
+# !/usr/bin/env python3
 import Bio
 from Bio import SeqUtils
 from Bio.Seq import Seq
@@ -7,6 +9,12 @@ import configparser
 import argparse
 import sys
 import yaml
+
+"""
+Pre demux  differes from pre_demux2.py in the way that this one does not open a config file but you have to specifiy an 
+argument through commmand line.
+"""
+
 
 def sorting_sequences(handle_fwd, handle_rev, output_forward, output_reverse, forward_primer, reverse_primer):
     count = 3
@@ -56,18 +64,14 @@ class PreDemux:
     def __init__(self):
         args = argparser()
         self.inputdir = args.inputdir
+        self.forward = args.forward
+        self.reverse = args.reverse
 
     def opening_files(self):
-        # # Read the config file.
-        # config = configparser.ConfigParser()
-        # # config.read(f"/export/jippe/jsil/programs/16S/versions/3.0/config.yaml")
-        # config.read(f"{self.inputdir}output/config.yaml")
-        with open(f"{self.inputdir}output/config.yaml", 'r') as f:
-            config = yaml.safe_load(f)
 
         # Put the primers in a seq object.
-        forward_primer0 = config['forward']  # forward_primer = "GTGYCAGCMGCCGCGGTAA"
-        reverse_primer0 = config['reverse']  # reverse_primer = "CCGYCAATTYMTTTRAGTTT"
+        forward_primer0 = self.forward.upper()  # forward_primer = "GTGYCAGCMGCCGCGGTAA"
+        reverse_primer0 = self.reverse.upper()  # reverse_primer = "CCGYCAATTYMTTTRAGTTT"
         forward_primer = Seq(forward_primer0)
         reverse_primer = Seq(reverse_primer0)
         # Retrieve locations for the forward and reverse files.
@@ -96,6 +100,8 @@ def argparser():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("--inputdir", help="input file must be a fasta file.")
+    parser.add_argument("--forward", help="Forward primer.", default="GTGYCAGCMGCCGCGGTAA")
+    parser.add_argument("--reverse", help="Reverse primer.", default="CCGYCAATTYMTTTRAGTTT")
 
     args = parser.parse_args()
     return args
@@ -107,6 +113,7 @@ def main():
     """
     pre_demux_calculation = PreDemux()
     pre_demux_calculation.opening_files()
+
 
 if __name__ == '__main__':
     sys.exit(main())
