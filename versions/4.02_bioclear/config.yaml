@@ -1,0 +1,15 @@
+
+forw: 270
+reve: 225
+#output: "/export/projects/Other/BSPE/input_data/farmland_data_bioclear/Bac/analysis_test_fw_rv/output/"
+inputdir: "/export/projects/Other/BSPE/input_data/farmland_data_bioclear/Bac/analysis/"
+naming_convention: "BSPE_26_03_2026"
+#F341
+forward: "CCTACGGGNGGCWGCAG"
+#R806
+reverse: "GACTACHVGGGTATCTAATCC"
+
+tooldir: "/export/jippe/jsil/programs/"
+condaenvs: "/export/databases/Conda/22.11.1/yaml_files/jsil/"
+qiime_v2: "qiime2-2022.11.16S.01.yaml"
+classifier: "/export/databases/Silva/138.1/Qiime/2022.11/silva-138-99-nb-classifier_515f_926R.qza"
