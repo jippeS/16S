@@ -1,0 +1,14 @@
+4.0_bmkgene:
+Every 16S bmkgene data that is ordered.
+
+4.01_DEA
+Has only demultiplexed data.
+no metadata or manifest.
+
+4.02_bioclear
+Has only demultiplexed data.
+Input data/files are called different so minor changes needed to be done on 4.01 thus formin 4.02_bioclear pipeline.
+
+4.03_farmland
+Has only demultiplexed data.
+specific metadata file, more dynamically and correctly applied renaming.
