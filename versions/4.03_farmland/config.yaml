@@ -1,0 +1,15 @@
+
+forw: 260
+reve: 230
+
+inputdir: "/export/projects/Other/BSPE/input_data/farmland_data_bioclear/Arc/Arc4/"
+naming_convention: "BSPE_26_03_2026_Arc"
+#F341
+forward: "AGGAATTGGCGGGGGAGCAC"
+#R806
+reverse: "GTGTGTGCAAGGAGCAGGG"
+
+tooldir: "/export/jippe/jsil/programs/"
+condaenvs: "/export/databases/Conda/22.11.1/yaml_files/jsil/"
+qiime_v2: "qiime2-2022.11.16S.01.yaml"
+classifier: "/export/jippe/jsil/programs/classifier_creation/version/1.0/classifier_2024.10/2024.10_classifier.qza" #"/export/databases/Silva/138.1/Qiime/2022.11/silva-138-99-nb-classifier_full_length.qza"
