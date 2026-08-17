@@ -1,0 +1,14 @@
+#inputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/"
+#outputdir: "/export/jippe/jsil/projects/16S/KJOH/04_04_2023/output/"
+
+inputdir: "/export/projects/16S/RPEI/20_05_2020_Q9407/"
+naming_convention: "RPEI_16S_515F_926R_20052020_Q9407_RPEI"
+quote: "Q9407"
+
+forward: "GTGYCAGCMGCCGCGGTAA"
+reverse: "CCGYCAATTYMTTTRAGTTT"
+
+tooldir: "/export/jippe/jsil/programs/"
+condaenvs: "/export/databases/Conda/22.11.1/yaml_files/jsil/"
+qiime_v2: "qiime2-2022.11.16S.01.yaml"
+classifier: "/export/databases/Silva/138.1/Qiime/2022.11/silva-138-99-nb-classifier_515f_926R.qza"
